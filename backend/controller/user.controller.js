@@ -12,7 +12,7 @@ async function login(req, res) {
         const { error } = login_user.validate(req.body);
         if (error) {
           console.log("validation failed");
-          return res.status(404).send("Invalid Data");
+          return res.status(400).send("Invalid Data");
         }
 
         const { email, password } = req.body;
@@ -26,7 +26,7 @@ async function login(req, res) {
 
         if (rows.length === 0) {
           console.log(`Row: ${rows}`);
-          return res.status(400).send("User doesn't exist");
+          return res.status(404).send("User doesn't exist");
         }
 
         const passwordMatch = await bcrypt.compare(password, rows[0].password);
@@ -35,7 +35,8 @@ async function login(req, res) {
             return res.status(401).json({ error: 'Authentication failed' });
         }
 
-        const token = jwt.sign({ userId: rows[0]._id }, JWT_SECRET_KEY, {
+        console.log("JWT_SECRET_KEY during login:", JWT_SECRET_KEY);
+        const token = jwt.sign({ userId: rows[0].id }, JWT_SECRET_KEY, {
           expiresIn: "1h",
         });
 
@@ -53,7 +54,7 @@ async function register(req, res){
         const {error} = register_user.validate(req.body);
         if(error){
             console.log('validation failed');
-            return res.status(404).send("Invalid Data");;
+            return res.status(400).send("Invalid Data");;
         }
         const {name, email, password} = req.body;
 
@@ -65,7 +66,7 @@ async function register(req, res){
 
         if(rows.length>0) {
             console.log(`Row: ${rows}`);
-            return res.status(400).send("User already exists");
+            return res.status(404).send("User already exists");
         }
 
         const hashed_password = await bcrypt.hash(password, 10);
@@ -74,7 +75,7 @@ async function register(req, res){
             'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',[name, email, hashed_password]
         );
 
-        return res.status(200).send('User registered');
+        return res.status(201).send('User registered');
 
     }catch(err){
         console.log(err);

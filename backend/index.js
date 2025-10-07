@@ -17,6 +17,9 @@ app.listen(PORT, () => {
 });
 
 require('./db_config').checkConnection();
-const user = require('./routes/user');
 
-app.use('/user', user)
+const user = require('./routes/user');
+const finance = require('./routes/finance')
+
+app.use('/user', user);
+app.use('/manage-finance', finance)

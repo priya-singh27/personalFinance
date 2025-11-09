@@ -3,11 +3,17 @@ const { finance_schema } = require("../schema/finance/create");
 
 async function getAllRecords(req, res) {
   try {
-    const userId = req.userId;
+    // const userId = req.userId; 
+
+    // const [records] = await pool.query(
+    //   "SELECT * FROM financial_records  WHERE user_id=?",
+      
+
+    //   [userId]
+    // );
 
     const [records] = await pool.query(
-      "SELECT * FROM financial_records  WHERE user_id=?",
-      [userId]
+      "SELECT * FROM financial_records",
     );
 
     if (records.length === 0) {

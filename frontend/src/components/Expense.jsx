@@ -121,7 +121,7 @@ export default function Expense() {
 
                         { error && <p className='text-red-500'>{error}</p>}
                      
-                    <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5">
+                    <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-200 focus:border-cyan-500 block w-full p-2.5">
                             <option value="">--Please choose a category--</option>
                             {categories.map(category => {
                                 return <option key={category.value} value={category.value}>
@@ -134,7 +134,7 @@ export default function Expense() {
 
                     <input
                         type="date"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:bg-cyan-600 block w-full p-2.5"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                     />
 
                     <button
@@ -146,4 +146,4 @@ export default function Expense() {
                 </form>
         </div>
     )
-}
+}0

@@ -7,7 +7,15 @@ const cors = require('cors');
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://www.priyasinghdev.com",
+    "https://priyasinghdev.com",
+    "https://personalfinance-16xt91woe-priya-singhs-projects-3ccd0646.vercel.app"
+  ],
+  credentials: true
+}));
 app.use(
     express.urlencoded({
         extended: true,

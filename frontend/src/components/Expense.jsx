@@ -28,6 +28,7 @@ export default function Expense() {
         title: "",
         amount: "",
         type: "expense",
+        category: "",
         date: "",
         description:""
     })
@@ -46,9 +47,14 @@ export default function Expense() {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
+        let processedValue = value;
+
+        if (name === "amount") {
+            processedValue = parseInt(value) || 0;
+        }
         setFormData(prev => ({
             ...prev,
-            [name]:value
+            [name]:processedValue
         }))
     }
 
@@ -57,9 +63,9 @@ export default function Expense() {
         setSubmitLoading(true);
         try {
             const response = await axios.post(`${api_url}/manage-finance/create`, formData, {
-                headers: {
-                    'Authorization':`Bearer ${localStorage.getItem('token')}`
-                }
+                // headers: {
+                //     'Authorization':`Bearer ${localStorage.getItem('token')}`
+                // }
             });
 
             console.log('Record created:', response.data);
@@ -107,7 +113,7 @@ export default function Expense() {
                 
                     <div>
                     <p className='font-semibold mb-2'>Type</p>
-                    <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5">
+                    <select name='type' value={formData.type} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5">
                             <option value="">--Expense type--</option>
                             <option value="expense">Expense</option>
                             <option value="income">Income</option>
@@ -121,7 +127,7 @@ export default function Expense() {
 
                         { error && <p className='text-red-500'>{error}</p>}
                      
-                    <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-200 focus:border-cyan-500 block w-full p-2.5">
+                    <select onChange={handleInputChange} name='category' value={formData.category} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-200 focus:border-cyan-500 block w-full p-2.5">
                             <option value="">--Please choose a category--</option>
                             {categories.map(category => {
                                 return <option key={category.value} value={category.value}>
@@ -132,7 +138,10 @@ export default function Expense() {
 
                     </div>
 
-                    <input
+                <input
+                        name='date'
+                        value={formData.date}
+                        onChange={handleInputChange}
                         type="date"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                     />
@@ -146,4 +155,4 @@ export default function Expense() {
                 </form>
         </div>
     )
-}0
+}

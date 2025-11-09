@@ -96,24 +96,24 @@ async function updateRecord(req, res) {
 
 async function createRecord(req,res){
     try{
-        const userId = req.userId;
+        // const userId = req.userId;
         const { error } = finance_schema.validate(req.body);
         if (error) {
           console.log("validation failed");
           return res.status(400).send("Invalid Data");
         }
 
-        const [users] = await pool.query("SELECT * FROM users WHERE id=?", [userId]);
+        // const [users] = await pool.query("SELECT * FROM users WHERE id=?", [userId]);
 
-        if(users.length===0){
-            return res.status(404).send("User doesn't exist");
-        }
+        // if(users.length===0){
+        //     return res.status(404).send("User doesn't exist");
+        // }
 
         const { title, amount, type, category, date, description} = req.body;
 
         const record = await pool.query(
           "INSERT INTO financial_records (user_id, title, amount, type, category, date, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
-          [userId, title, amount, type, category, date, description||null]
+          [1, title, amount, type, category, date, description||null]
         );
 
         return res.status(201).json({

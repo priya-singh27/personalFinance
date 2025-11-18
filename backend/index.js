@@ -27,6 +27,10 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`);
 });
 
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Backend is running' });
+});
+
 require('./db_config').checkConnection();
 
 const user = require('./routes/user');

@@ -9,11 +9,11 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors({
   origin: [
-    "https://expenses.priyasinghdev.com/",
+    "https://expenses.priyasinghdev.com", 
     "http://localhost:5173",
     "https://www.priyasinghdev.com",
     "https://priyasinghdev.com",
-    "https://personalfinance-16xt91woe-priya-singhs-projects-3ccd0646.vercel.app"
+    "https://personalfinance-chi.vercel.app" 
   ],
   credentials: true
 }));

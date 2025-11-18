@@ -101,7 +101,8 @@ async function updateRecord(req, res) {
 }
 
 async function createRecord(req,res){
-    try{
+  try {
+        console.log("Received request body:", req.body);
         // const userId = req.userId;
         const { error } = finance_schema.validate(req.body);
         if (error) {
@@ -109,7 +110,8 @@ async function createRecord(req,res){
           // return res.status(400).send("Invalid Data");
           return res.status(400).json({
             error: "Invalid Data",
-            details: error.details
+            details: error.details,
+            receivedBody: req.body
           });
         }
 

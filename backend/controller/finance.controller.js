@@ -106,7 +106,11 @@ async function createRecord(req,res){
         const { error } = finance_schema.validate(req.body);
         if (error) {
           console.log("validation failed");
-          return res.status(400).send("Invalid Data");
+          // return res.status(400).send("Invalid Data");
+          return res.status(400).json({
+            error: "Invalid Data",
+            details: error.details
+          });
         }
 
         // const [users] = await pool.query("SELECT * FROM users WHERE id=?", [userId]);

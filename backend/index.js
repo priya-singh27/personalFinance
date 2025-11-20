@@ -1,5 +1,5 @@
 const express = require('express');
-const app =express();
+const app = express();
 require("dotenv").config();
 const cors = require('cors');
 
@@ -9,11 +9,11 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors({
   origin: [
-    "https://expenses.priyasinghdev.com", 
+    "https://expenses.priyasinghdev.com",
     "http://localhost:5173",
     "https://www.priyasinghdev.com",
     "https://priyasinghdev.com",
-    "https://personalfinance-chi.vercel.app" 
+    "https://personalfinance-chi.vercel.app"
   ],
   credentials: true
 }));
@@ -23,18 +23,21 @@ app.use(
     })
 );
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`);
-});
-
+// Health check route
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Backend is running' });
 });
 
+// Database connection
 require('./db_config').checkConnection();
 
+// Routes
 const user = require('./routes/user');
-const finance = require('./routes/finance')
+const finance = require('./routes/finance');
 
 app.use('/user', user);
-app.use('/manage-finance', finance)
+app.use('/manage-finance', finance);
+
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}...`);
+});

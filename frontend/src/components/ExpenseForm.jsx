@@ -91,9 +91,9 @@ export default function ExpenseForm({onExpenseAdded}) {
     }
 
     return (
-        <div className='w-full max-w-md shadow-lg rounded-xl p-6 m-5 border border-gray-200'>
-          
-                <form className='space-y-4' onSubmit={handleAddExpense}>
+        <div className='w-full lg:max-w-md shadow-lg rounded-xl p-4 sm:p-5 md:p-6 m-2 sm:m-3 md:m-5 border border-gray-200'>
+
+                <form className='space-y-3 sm:space-y-4' onSubmit={handleAddExpense}>
 
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         Title

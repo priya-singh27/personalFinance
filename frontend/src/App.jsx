@@ -14,7 +14,7 @@ function App() {
   return (
     <div >
       <Header />
-      <div className='flex'>
+      <div className='flex flex-col lg:flex-row'>
 
         <ExpenseForm onExpenseAdded={ addExpense} />
               <Expense expenses={expenses} setExpenses={ setExpenses} />

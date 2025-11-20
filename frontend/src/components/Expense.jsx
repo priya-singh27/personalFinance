@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react'
 
 const api_url = import.meta.env.VITE_API_BASE_URL;
 
-export default function Expense({expenses, setExpenses}) {
+export default function Expense({ expenses, setExpenses }) {
     // const [expenses, setExpenses] = useState([{}]);
     const [loading, setLoading] = useState(false);
-    const[error, setError] = useState(null);
+    const [error, setError] = useState(null);
 
-    useEffect( ()=>{
+    useEffect(() => {
         const fetchExpenses = async () => {
             try {
                 setLoading(true)
                 const response = await axios.get(
-                    `${api_url}/manage-finance/fetch`
+                    `${api_url}/expense/fetch`
                 );
 
                 console.log(response.data);
@@ -42,15 +42,7 @@ export default function Expense({expenses, setExpenses}) {
         <div className="md:hidden max-h-[400px] sm:max-h-[500px] overflow-y-auto space-y-3">
             {expenses.map((expense, index) => (
                 <div key={expense.id} className={`p-3 rounded-lg shadow ${index % 2 !== 0 ? "bg-cyan-50 text-gray-800" : "bg-cyan-600 text-neutral-50"}`}>
-                    <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-sm">{expense.title}</h3>
-                        <span className={`px-2 py-1 rounded-full text-xs ${expense.type === 'income'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-red-100 text-red-800'
-                            }`}>
-                            {expense.type}
-                        </span>
-                    </div>
+                    
                     <div className="grid grid-cols-2 gap-2 text-xs">
                         <div>
                             <span className="opacity-70">Amount:</span>
@@ -82,7 +74,6 @@ export default function Expense({expenses, setExpenses}) {
                     <tr className="text-cyan-900 sticky top-0 bg-white shadow-sm">
                         <th className="py-3 lg:py-5 text-gray-800 px-2 lg:px-4 text-sm lg:text-base">Title</th>
                         <th className="py-3 lg:py-5 text-gray-800 px-2 lg:px-4 text-sm lg:text-base">Amount</th>
-                        <th className="py-3 lg:py-5 text-gray-800 px-2 lg:px-4 text-sm lg:text-base">Type</th>
                         <th className="py-3 lg:py-5 text-gray-800 px-2 lg:px-4 text-sm lg:text-base hidden lg:table-cell">Category</th>
                         <th className="py-3 lg:py-5 text-gray-800 px-2 lg:px-4 text-sm lg:text-base">Date</th>
                         <th className="py-3 lg:py-5 text-gray-800 px-2 lg:px-4 text-sm lg:text-base hidden xl:table-cell">Description</th>
@@ -93,24 +84,17 @@ export default function Expense({expenses, setExpenses}) {
                 <tbody className="divide-y divide-gray-200">
                     {expenses
                         .map((expense, index) => (
-                        <tr key={expense.id} className={index % 2 !== 0 ? "bg-cyan-50 border-0 rounded-xl shadow-lg text-gray-800" : "bg-cyan-600 border-0 rounded-xl shadow-lg text-neutral-50"}>
-                            <td className="py-2 px-2 lg:px-3 text-center text-sm">{expense.title}</td>
-                            <td className="py-2 px-2 lg:px-3 text-center text-sm">{expense.amount}</td>
-                            <td className="py-2 px-2 lg:px-3 text-center">
-                                <span className={`px-2 py-1 rounded-full text-xs ${expense.type === 'income'
-                                        ? 'bg-green-100 text-green-800'
-                                        : expense.id % 2 !== 0 ? 'bg-red-100 text-red-800' : 'bg-red-300 text-white'
-                                    }`}>
-                                    {expense.type}
-                                </span>
-                            </td>
-                            <td className="py-2 px-2 lg:px-3 text-center text-sm hidden lg:table-cell">{expense.category}</td>
-                            <td className="py-2 px-2 lg:px-3 text-center text-sm">
-                                {new Date(expense.date).toLocaleDateString()}
-                            </td>
-                            <td className="py-2 px-2 lg:px-3 text-center text-sm hidden xl:table-cell">{expense.description}</td>
-                        </tr>
-                    ))}
+                            <tr key={expense.id} className={index % 2 !== 0 ? "bg-cyan-50 border-0 rounded-xl shadow-lg text-gray-800" : "bg-cyan-600 border-0 rounded-xl shadow-lg text-neutral-50"}>
+                                <td className="py-2 px-2 lg:px-3 text-center text-sm">{expense.title}</td>
+                                <td className="py-2 px-2 lg:px-3 text-center text-sm">{expense.amount}</td>
+                                
+                                <td className="py-2 px-2 lg:px-3 text-center text-sm hidden lg:table-cell">{expense.category}</td>
+                                <td className="py-2 px-2 lg:px-3 text-center text-sm">
+                                    {new Date(expense.date).toLocaleDateString()}
+                                </td>
+                                <td className="py-2 px-2 lg:px-3 text-center text-sm hidden xl:table-cell">{expense.description}</td>
+                            </tr>
+                        ))}
                 </tbody>
 
             </table>
@@ -118,5 +102,5 @@ export default function Expense({expenses, setExpenses}) {
 
         </div>
     </div>
-    
+
 }

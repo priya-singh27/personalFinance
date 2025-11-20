@@ -5,7 +5,7 @@ const {
   updateRecord,
   removeRecord,
   getAllRecords,
-} = require("../controller/finance.controller");
+} = require("../controller/expense.controller");
 const verifyToken = require('../middleware/authMiddleware');
 
 router.post("/create", createRecord);

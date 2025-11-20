@@ -13,14 +13,14 @@ app.use(cors({
     "http://localhost:5173",
     "https://www.priyasinghdev.com",
     "https://priyasinghdev.com",
-    "https://personalfinance-chi.vercel.app"
+    "https://personalexpense-chi.vercel.app"
   ],
   credentials: true
 }));
 app.use(
-    express.urlencoded({
-        extended: true,
-    })
+  express.urlencoded({
+    extended: true,
+  })
 );
 
 // Health check route
@@ -33,10 +33,10 @@ require('./db_config').checkConnection();
 
 // Routes
 const user = require('./routes/user');
-const finance = require('./routes/finance');
+const expense = require('./routes/expense');
 
 app.use('/user', user);
-app.use('/manage-finance', finance);
+app.use('/expense', expense);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`);

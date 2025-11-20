@@ -1,5 +1,5 @@
-const {pool} = require('../db_config');
-const { finance_schema } = require("../schema/finance/create");
+const { pool } = require('../db_config');
+const { expense_schema } = require("../schema/expense/create");
 
 async function getAllRecords(req, res) {
   try {
@@ -7,7 +7,7 @@ async function getAllRecords(req, res) {
 
     // const [records] = await pool.query(
     //   "SELECT * FROM financial_records  WHERE user_id=?",
-      
+
 
     //   [userId]
     // );
@@ -37,7 +37,7 @@ async function removeRecord(req, res) {
     const userId = req.userId;
     const recordId = req.params.id;
 
-    const { error } = finance_schema.validate(req.body);
+    const { error } = expense_schema.validate(req.body);
     if (error) {
       console.log("validation failed");
       return res.status(400).send("Invalid Data");
@@ -70,8 +70,8 @@ async function updateRecord(req, res) {
   try {
     const userId = req.userId;
     const recordId = req.params.id;
-    
-    const { error } = finance_schema.validate(req.body);
+
+    const { error } = expense_schema.validate(req.body);
     if (error) {
       console.log("validation failed");
       return res.status(400).send("Invalid Data");
@@ -100,42 +100,42 @@ async function updateRecord(req, res) {
   }
 }
 
-async function createRecord(req,res){
+async function createRecord(req, res) {
   try {
-        console.log("Received request body:", req.body);
-        // const userId = req.userId;
-        const { error } = finance_schema.validate(req.body);
-        if (error) {
-          console.log("validation failed");
-          // return res.status(400).send("Invalid Data");
-          return res.status(400).json({
-            error: "Invalid Data",
-            details: error.details,
-            receivedBody: req.body
-          });
-        }
-
-        // const [users] = await pool.query("SELECT * FROM users WHERE id=?", [userId]);
-
-        // if(users.length===0){
-        //     return res.status(404).send("User doesn't exist");
-        // }
-
-        const { title, amount, type, category, date, description} = req.body;
-
-        const record = await pool.query(
-          "INSERT INTO financial_records (user_id, title, amount, type, category, date, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
-          [1, title, amount, type, category, date, description||null]
-        );
-
-        return res.status(201).json({
-          message: "Record created successfully",
-          id: record.insertId,
-        });
-    }catch(err){
-        console.log(err);
-        return res.status(500).send("Something went wrong");
+    console.log("Received request body:", req.body);
+    // const userId = req.userId;
+    const { error } = expense_schema.validate(req.body);
+    if (error) {
+      console.log("validation failed");
+      // return res.status(400).send("Invalid Data");
+      return res.status(400).json({
+        error: "Invalid Data",
+        details: error.details,
+        receivedBody: req.body
+      });
     }
+
+    // const [users] = await pool.query("SELECT * FROM users WHERE id=?", [userId]);
+
+    // if(users.length===0){
+    //     return res.status(404).send("User doesn't exist");
+    // }
+
+    const { title, amount, category, date, description } = req.body;
+
+    const record = await pool.query(
+      "INSERT INTO financial_records (user_id, title, amount, category, date, description) VALUES (?, ?, ?, ?, ?, ?)",
+      [1, title, amount, category, date, description || null]
+    );
+
+    return res.status(201).json({
+      message: "Record created successfully",
+      id: record.insertId,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Something went wrong");
+  }
 }
 
 module.exports = {

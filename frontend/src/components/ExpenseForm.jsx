@@ -60,9 +60,9 @@ export default function ExpenseForm({ onExpenseAdded }) {
         setSubmitLoading(true);
         try {
             const response = await axios.post(`${api_url}/expense/create`, formData, {
-                // headers: {
-                //     'Authorization':`Bearer ${localStorage.getItem('token')}`
-                // }
+                headers: {
+                    'Authorization':`Bearer ${localStorage.getItem('token')}`
+                }
             });
 
             console.log('Record created:', response.data);

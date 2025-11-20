@@ -56,7 +56,7 @@ async function register(req, res){
             console.log('validation failed');
             return res.status(400).send("Invalid Data");;
         }
-        const {name, email, password} = req.body;
+        const {username, email, password} = req.body;
 
         console.log(`email: ${email}`);
 
@@ -72,7 +72,7 @@ async function register(req, res){
         const hashed_password = await bcrypt.hash(password, 10);
 
         await pool.query(
-            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',[name, email, hashed_password]
+            'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',[username, email, hashed_password]
         );
 
         return res.status(201).send('User registered');

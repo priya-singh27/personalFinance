@@ -12,8 +12,8 @@ async function getAllRecords(req, res) {
 
     if (records.length === 0) {
       return res
-        .status(404)
-        .json({ error: "Record not found or unauthorized" });
+        .status(200)
+        .json({ message: "No expenses found", data: [] });
     }
 
     return res.status(200).json({

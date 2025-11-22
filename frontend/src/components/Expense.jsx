@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router';
 
 const api_url = import.meta.env.VITE_API_BASE_URL;
 
@@ -7,6 +8,8 @@ export default function Expense({ expenses, setExpenses }) {
     // const [expenses, setExpenses] = useState([{}]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const navigate=useNavigate()
 
     useEffect(() => {
         const fetchExpenses = async () => {
@@ -25,10 +28,15 @@ export default function Expense({ expenses, setExpenses }) {
 
                 setExpenses(response.data.data);
             } catch (err) {
+                if (err.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                }
                 setError('Failed to fetch expenses');
                 console.error('Error:', err);
             } finally {
                 setLoading(false);
+                setError(null)
 
             }
         }

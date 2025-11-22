@@ -10,6 +10,7 @@ import Login  from './components/Login';
 function App() {
   const [expenses, setExpenses] = useState([]);
   const isLoggedIn = localStorage.getItem("token") !== null;
+  console.log("isLoggedIn:", isLoggedIn, "token:", localStorage.getItem("token"));
 
   const addExpense = (newExpense) => {
     setExpenses(prev => [...prev, newExpense]); 

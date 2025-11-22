@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react"
+import {useNavigate} from 'react-router'
 
 const api_url = import.meta.env.VITE_API_BASE_URL;
 
@@ -11,6 +12,8 @@ export default function Register() {
     });
     const[error, setError] = useState("");
     const [submitLoading, setSubmitLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -26,6 +29,8 @@ export default function Register() {
                 email: "",
                 password: ""
             })
+
+            navigate('/login')
         } catch (err) {
             setError("Failed to register user");
             console.log(err);
@@ -42,31 +47,41 @@ export default function Register() {
             ...prev, [name]: value
         }));
     }
+
+    const handleClick = () => {
+        navigate('/login')
+    }
+
     return (
-        <div className="w-full lg:max-w-md shadow-lg rounded-xl p-4 ml-auto mr-auto mt-40 border border-gray-200">
-            <h1 className="mb-2">Create Your Account</h1>
+        <div className="w-full max-w-sm sm:max-w-md shadow-lg rounded-xl p-4 mx-4 sm:mx-auto mt-10 sm:mt-20 lg:mt-40 border border-gray-200">
+            <h1 className="mb-4 text-2xl text-zinc-700">Create Your Account</h1>
 
             {error && <p className="text-red-500">{error}</p>}
 
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="name">Username:</label>
-                    <input type="text" id="name" name="username" value={formData.username} required placeholder="Enter your name" onChange={handleInputChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-4 mb-2"/>
+                    <label htmlFor="name" className="text-zinc-500">Username:</label>
+                    <input type="text" id="name" name="username" value={formData.username} required placeholder="Enter your name" onChange={handleInputChange} className="text-zinc-500 bg-gray-50 border border-gray-300  text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-4 mb-2"/>
                 </div>
                 <div>
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" required value={formData.email} placeholder="Enter your email" onChange={handleInputChange} className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-4"/>
+                    <label htmlFor="email" className="text-zinc-500">Email:</label>
+                    <input type="email" id="email" name="email" required value={formData.email} placeholder="Enter your email" onChange={handleInputChange} className="text-zinc-500 mb-2 bg-gray-50 border border-gray-300  text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-4"/>
                 </div>
 
                 <div>
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" name="password" required value={formData.password} placeholder="Enter your password" onChange={handleInputChange} className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-4"/>
+                    <label htmlFor="password" className="text-zinc-500">Password:</label>
+                    <input type="password" id="password" name="password" required value={formData.password} placeholder="Enter your password" onChange={handleInputChange} className="text-zinc-500 mb-4 bg-gray-50 border border-gray-300  text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-4"/>
                 </div>
 
                 {submitLoading && <p>Loading...</p>}
 
-                <button type="submit" className="w-full bg-gradient-to-br bg-cyan-700  hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors">Register</button>
+                <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-6">
+                    <button type="submit" className="w-full sm:w-auto bg-gradient-to-br bg-cyan-700  hover:bg-cyan-600 text-white font-semibold py-2.5 px-15 rounded-lg transition-colors">Register</button>
+                    <button onClick={handleClick} className="w-full sm:w-auto bg-gradient-to-br bg-cyan-700  hover:bg-cyan-600 text-white font-semibold py-2.5 px-15 rounded-lg transition-colors">Login</button>
+                </div>
             </form>
+
+            
         </div>
     )
 };

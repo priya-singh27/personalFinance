@@ -31,12 +31,6 @@ async function removeRecord(req, res) {
     const userId = req.userId;
     const recordId = req.params.id;
 
-    const { error } = expense_schema.validate(req.body);
-    if (error) {
-      console.log("validation failed");
-      return res.status(400).send("Invalid Data");
-    }
-
     const [records] = await pool.query(
       "DELETE FROM financial_records  WHERE id=? AND user_id=?",
       [
@@ -74,8 +68,8 @@ async function updateRecord(req, res) {
     const { title, amount, type, category, date, description } = req.body;
 
     const record = await pool.query(
-      "UPDATE financial_records SET user_id=?, title=?, amount=?, type=?, category=?, date=?, description=? WHERE id=? AND user_id=?",
-      [userId, title, amount, type, category, date, description || null, recordId, userId]
+      "UPDATE financial_records SET user_id=?, title=?, amount=?,category=?, date=?, description=? WHERE id=? AND user_id=?",
+      [userId, title, amount, category, date, description || null, recordId, userId]
     );
 
     if (record.affectedRows === 0) {

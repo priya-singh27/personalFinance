@@ -3,7 +3,7 @@ require("dotenv").config();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 function verifyToken(req, res, next) {
-  const token = req.header("Authorization").replace("Bearer ", "");
+  const token = req.header("Authorization")?.replace("Bearer ", "");
   
   if (!token) return res.status(401).json({ error: "Access denied" });
   try {

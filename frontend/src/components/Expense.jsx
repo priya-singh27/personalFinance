@@ -13,7 +13,12 @@ export default function Expense({ expenses, setExpenses }) {
             try {
                 setLoading(true)
                 const response = await axios.get(
-                    `${api_url}/expense/fetch`
+                    `${api_url}/expense/fetch`,
+                    {
+                        headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                    }
                 );
 
                 console.log(response.data);

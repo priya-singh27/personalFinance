@@ -3,17 +3,11 @@ const { expense_schema } = require("../schema/expense/create");
 
 async function getAllRecords(req, res) {
   try {
-    // const userId = req.userId; 
-
-    // const [records] = await pool.query(
-    //   "SELECT * FROM financial_records  WHERE user_id=?",
-
-
-    //   [userId]
-    // );
+    const userId = req.userId; 
 
     const [records] = await pool.query(
-      "SELECT * FROM financial_records",
+      "SELECT * FROM financial_records  WHERE user_id=?",
+      [userId]
     );
 
     if (records.length === 0) {
@@ -103,11 +97,10 @@ async function updateRecord(req, res) {
 async function createRecord(req, res) {
   try {
     console.log("Received request body:", req.body);
-    // const userId = req.userId;
+    const userId = req.userId;
     const { error } = expense_schema.validate(req.body);
     if (error) {
       console.log("validation failed");
-      // return res.status(400).send("Invalid Data");
       return res.status(400).json({
         error: "Invalid Data",
         details: error.details,
@@ -115,17 +108,21 @@ async function createRecord(req, res) {
       });
     }
 
-    // const [users] = await pool.query("SELECT * FROM users WHERE id=?", [userId]);
+    console.log(`userId= ${userId}`);
 
-    // if(users.length===0){
-    //     return res.status(404).send("User doesn't exist");
-    // }
+    const [users] = await pool.query("SELECT * FROM users WHERE id=?", [userId]);
+    console.log(`Users: ${users}`);
+
+    if(users.length===0){
+        return res.status(404).send("User doesn't exist");
+    }
 
     const { title, amount, category, date, description } = req.body;
 
+
     const record = await pool.query(
       "INSERT INTO financial_records (user_id, title, amount, category, date, description) VALUES (?, ?, ?, ?, ?, ?)",
-      [1, title, amount, category, date, description || null]
+      [userId, title, amount, category, date, description || null]
     );
 
     return res.status(201).json({

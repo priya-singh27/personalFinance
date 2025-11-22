@@ -21,12 +21,14 @@ export default function Login() {
         try {
             const res = await axios.post(`${api_url}/user/login`, formData);
 
-            console.log(`User registered: ${res}`);
+            console.log(`User logged in: ${res}`);
 
             setFormData({
                 email: "",
                 password: ""
-            })
+            });
+
+            localStorage.setItem('token', res.data.token); 
 
             navigate('/dashboard')
         } catch (err) {
@@ -45,7 +47,7 @@ export default function Login() {
     }
 
     const handleClick = () => {
-        navigate('/register')
+        navigate('/')
     }
     return (
         <div className="w-full max-w-sm sm:max-w-md shadow-lg rounded-xl p-4 mx-4 sm:mx-auto mt-10 sm:mt-20 lg:mt-40 border border-gray-200">

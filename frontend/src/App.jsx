@@ -3,22 +3,22 @@ import ExpenseForm from './components/ExpenseForm';
 import Header from './components/Header';
 import Expense from './components/Expense';
 import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import Register from './components/Register';
 import Login  from './components/Login';
 
 function App() {
   const [expenses, setExpenses] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = localStorage.getItem("token") !== null;
 
   const addExpense = (newExpense) => {
-    setExpenses(prev => [newExpense, ...prev]); 
+    setExpenses(prev => [...prev, newExpense]); 
   };
   
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/register" element={<Register />}></Route>
+        <Route index element={isLoggedIn ? <Navigate to="/dashboard" /> : <Register />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/dashboard' element={
           <div >

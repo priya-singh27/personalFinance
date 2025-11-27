@@ -54,6 +54,7 @@ async function removeRecord(req, res) {
     return res.status(500).send("Something went wrong");
   }
 }
+
 async function updateRecord(req, res) {
   try {
     const userId = req.userId;
@@ -65,7 +66,10 @@ async function updateRecord(req, res) {
       return res.status(400).send("Invalid Data");
     }
 
-    const { title, amount, type, category, date, description } = req.body;
+    const { title, amount, category, date, description } = req.body;
+
+    const formattedDate = new Date(date).toISOString().split('T')[0];
+
 
     const record = await pool.query(
       "UPDATE financial_records SET user_id=?, title=?, amount=?,category=?, date=?, description=? WHERE id=? AND user_id=?",
